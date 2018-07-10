@@ -54,7 +54,7 @@ class Worker():
 		"""
 
 		i = 0
-		while self.state = 'waiting': 
+		while self.state == 'waiting': 
 			time.sleep(.3)
 		while i < 100000 and self.state != 'exit':
 			if i %100 == 0:
