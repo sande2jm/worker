@@ -53,7 +53,7 @@ class Worker():
 		"""
 		i = 0
 		while i < 10000 and self.state != 'exit':
-			report(i,size=10000)
+			self.report(i,size=10000)
 			while self.state == 'pause': pass
 			i += 1
 
