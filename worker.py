@@ -56,13 +56,12 @@ class Worker():
 		i = 0
 		while self.state == 'waiting': 
 			time.sleep(.3)
-		self.report(1,10)
-		# while i < 100000 and self.state != 'exit':
-		# 	if i %100 == 0:
-		# 		self.report(i,size=1000)
-		# 	while self.state == 'pause':
-		# 		time.sleep(.3)
-		# 	i += 1
+		while i < 100000 and self.state != 'exit':
+			if i %100 == 0:
+				self.report(i,size=1000)
+			while self.state == 'pause':
+				time.sleep(.3)
+			i += 1
 
 		
 
