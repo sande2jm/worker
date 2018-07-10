@@ -69,7 +69,7 @@ class Worker():
 		'id': self.my_id,
 		'progress': round(i/size,4)}
 		self.progress = round(i/size,4)
-		response = self.queue.send_message(MessageBody=json.dumps(d), MessageGroupId='json_bots')
+		response = self.queue.send_message(MessageBody=json.dumps(d), MessageGroupId='bots')
 
 	def dump(self):
 		"""
@@ -79,7 +79,7 @@ class Worker():
 		'message': 'complete',
 		'id': self.my_id,
 		'progress': 'None'}
-		response = self.queue.send_message(MessageBody=json.dumps(d), MessageGroupId='json_bots')
+		response = self.queue.send_message(MessageBody=json.dumps(d), MessageGroupId='bots')
 
 
 		

@@ -16,7 +16,7 @@ d = {
 'id': my_id,
 'progress': 'None'}
 
-response = queue.send_message(MessageBody=json.dumps(d), MessageGroupId='json_bots')
+response = queue.send_message(MessageBody=json.dumps(d), MessageGroupId='bots')
 
 w = Worker()
 w.extract()
