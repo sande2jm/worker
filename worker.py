@@ -51,9 +51,11 @@ class Worker():
 		Take the params from extract and run whatever operations you want
 		on them. Set self.results in this method based on self.params
 		"""
+		i = 0
 		while i < 10000 and self.state != 'exit':
 			report(i,size=10000)
 			while self.state == 'pause': pass
+			i += 1
 
 		
 
