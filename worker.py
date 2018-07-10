@@ -22,8 +22,8 @@ class Worker():
 		self.state = 'running'
 		self.progress = 0.0
 		self.queue = self.sqs.get_queue_by_name(QueueName='swarm.fifo')
-		# self.controller_listener = Thread(target=self.check_in, daemon=True)
-		# self.controller_listener.start()
+		self.controller_listener = Thread(target=self.check_in, daemon=True)
+		self.controller_listener.start()
 		# self.s3.Bucket('swarm-instructions').download_file('instructions.txt', self.file_in)
 		# self.dynamodb = boto3.resource('dynamodb', region_name='us-east-1', endpoint_url="http://localhost:8000")
 		# self.table = dynamodb.Table('swarm')
@@ -52,7 +52,7 @@ class Worker():
 		on them. Set self.results in this method based on self.params
 		"""
 		i = 0
-		while i < 1000 and self.state != 'exit':
+		while i < 100000 and self.state != 'exit':
 			if i %100 == 0:
 				self.report(i,size=1000)
 			while self.state == 'pause': pass
