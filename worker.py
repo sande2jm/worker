@@ -34,7 +34,7 @@ class Worker():
 		while True:
 			with open('worker/state.txt', 'r') as f:
 				self.state[0] = f.read()
-				#print(self.progress, self.state)
+				print(self.progress, self.state)
 				time.sleep(3)
 
 	def extract(self):
