@@ -18,13 +18,15 @@ class Worker():
 		self.s3 = boto3.resource('s3')
 		self.my_id = check_output(['curl', 'http://169.254.169.254/latest/meta-data/instance-id'])
 		self.my_id = "".join(map(chr, self.my_id))
-		self.sqs = boto3('sqs', region_name='us-east-1')
+		self.sqs = boto3.resource('sqs', region_name='us-east-1')
 		self.state = 'running'
 		self.progress = 0.0
-		self.queue = sele.sqs.get_queue_by_name(QueueName='swarm.fifo')
-		self.controller_listener = Thread(target=self.check_in, daemon=True)
-		self.controller_listener.start()
-		self.s3.Bucket('swarm-instructions').download_file('instructions.txt', self.file_in)
+		self.queue = self.sqs.get_queue_by_name(QueueName='swarm.fifo')
+		# self.controller_listener = Thread(target=self.check_in, daemon=True)
+		# self.controller_listener.start()
+		# self.s3.Bucket('swarm-instructions').download_file('instructions.txt', self.file_in)
+		# self.dynamodb = boto3.resource('dynamodb', region_name='us-east-1', endpoint_url="http://localhost:8000")
+		# self.table = dynamodb.Table('swarm')
 
 	def check_in(self):
 		while True:
@@ -38,9 +40,10 @@ class Worker():
 		Use the file_in from init to extract this workers specific parameters
 		from json dictionary based on ec2 instance ids
 		"""		
-		with open(self.file_in, 'r') as f:
-			swarm_params = json.load(f)
-		self.params = swarm_params[self.my_id]
+		# with open(self.file_in, 'r') as f:
+		# 	swarm_params = json.load(f)
+		# self.params = swarm_params[self.my_id]
+		pass
 
 
 	def run(self):
@@ -52,7 +55,7 @@ class Worker():
 			report(i,size=10000)
 			while self.state == 'pause': pass
 
-		pass
+		
 
 
 	def report(self,i, size = 100):
@@ -75,6 +78,7 @@ class Worker():
 		'id': self.my_id,
 		'progress': 'None'}
 		response = self.queue.send_message(MessageBody=json.dumps(d), MessageGroupId='json_bots')
+
 
 		
 
