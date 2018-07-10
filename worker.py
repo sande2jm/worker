@@ -52,8 +52,9 @@ class Worker():
 		on them. Set self.results in this method based on self.params
 		"""
 		i = 0
-		while i < 10000 and self.state != 'exit':
-			self.report(i,size=10000)
+		while i < 1000 and self.state != 'exit':
+			if i %100 == 0:
+				self.report(i,size=1000)
 			while self.state == 'pause': pass
 			i += 1
 
