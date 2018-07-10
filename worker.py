@@ -21,7 +21,7 @@ class Worker():
 		self.my_id = check_output(['curl', 'http://169.254.169.254/latest/meta-data/instance-id'])
 		self.my_id = "".join(map(chr, self.my_id))
 		self.sqs = boto3.resource('sqs', region_name='us-east-1')
-		self.state = 'running'
+		self.state = ['waiting']
 		self.progress = 0.0
 		self.queue = self.sqs.get_queue_by_name(QueueName='swarm.fifo')
 		self.controller_listener = Thread(target=self.check_in, daemon=True)
@@ -33,7 +33,7 @@ class Worker():
 	def check_in(self):
 		while True:
 			with open('worker/state.txt', 'r') as f:
-				self.state = f.read()
+				self.state[0] = f.read()
 				#print(self.progress, self.state)
 				time.sleep(3)
 
@@ -55,13 +55,13 @@ class Worker():
 		"""
 
 		i = 0
-		while self.state == 'waiting':
+		while self.state[0] == 'waiting':
 			print("Waiting for GO") 
 			time.sleep(.3)
 		while i < 100000 and self.state != 'exit':
 			if i %100 == 0:
 				self.report(i,size=1000)
-			while self.state == 'pause':
+			while self.state[0] == 'pause':
 				time.sleep(.3)
 			i += 1
 
