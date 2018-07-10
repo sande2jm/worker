@@ -58,7 +58,7 @@ class Worker():
 		while self.state[0] == 'waiting':
 			print("Waiting for GO") 
 			time.sleep(.3)
-		while i < 100000 and self.state != 'exit':
+		while i < 100000 and self.state[0] != 'exit':
 			if i %100 == 0:
 				self.report(i,size=100000)
 			while self.state[0] == 'pause':
