@@ -63,6 +63,7 @@ class Worker():
 				self.report(i,size=100000)
 			while self.state[0] == 'pause':
 				time.sleep(.3)
+				self.report(i,size=100000)
 			i += 1
 
 		
