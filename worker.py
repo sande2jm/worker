@@ -32,7 +32,7 @@ class Worker():
 
 	def check_in(self):
 		while True:
-			with open('state.txt', 'r') as f:
+			with open('worker/state.txt', 'r') as f:
 				self.state = f.read()
 				print(self.progress, self.state)
 				time.sleep(3)
