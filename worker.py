@@ -52,11 +52,15 @@ class Worker():
 		Take the params from extract and run whatever operations you want
 		on them. Set self.results in this method based on self.params
 		"""
+
 		i = 0
+		while self.state = 'waiting': 
+			time.sleep(.3)
 		while i < 100000 and self.state != 'exit':
 			if i %100 == 0:
 				self.report(i,size=1000)
-			while self.state == 'pause': pass
+			while self.state == 'pause':
+				time.sleep(.3)
 			i += 1
 
 		
