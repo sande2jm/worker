@@ -4,6 +4,7 @@ import json
 from subprocess import call
 from subprocess import check_output
 from helper import *
+from threading import Thread
 
 class Worker():
 
@@ -67,6 +68,7 @@ class Worker():
 		"""
 		d = {
 		'message': 'working',
+		'state': self.state[0],
 		'id': self.my_id,
 		'progress': round(i/size,4)}
 		self.progress = round(i/size,4)
@@ -78,6 +80,7 @@ class Worker():
 		"""
 		d = {
 		'message': 'complete',
+		'state': self.state[0],
 		'id': self.my_id,
 		'progress': 'None'}
 		response = self.queue.send_message(MessageBody=json.dumps(d), MessageGroupId='bots')
