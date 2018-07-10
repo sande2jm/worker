@@ -22,7 +22,7 @@ class Worker():
 		self.my_id = "".join(map(chr, self.my_id))
 		self.sqs = boto3.resource('sqs', region_name='us-east-1')
 		self.state = ['waiting']
-		self.progress = 0.0
+		self.progress = [0.0]
 		self.queue = self.sqs.get_queue_by_name(QueueName='swarm.fifo')
 		self.controller_listener = Thread(target=self.check_in, daemon=True)
 		self.controller_listener.start()
@@ -34,7 +34,7 @@ class Worker():
 		while True:
 			with open('worker/state.txt', 'r') as f:
 				self.state[0] = f.read()
-				print(self.progress, self.state)
+				print(self.progress[0], self.state[0])
 				time.sleep(3)
 
 	def extract(self):
@@ -60,7 +60,7 @@ class Worker():
 			time.sleep(.3)
 		while i < 100000 and self.state != 'exit':
 			if i %100 == 0:
-				self.report(i,size=1000)
+				self.report(i,size=100000)
 			while self.state[0] == 'pause':
 				time.sleep(.3)
 			i += 1
@@ -77,7 +77,7 @@ class Worker():
 		'state': self.state[0],
 		'id': self.my_id,
 		'progress': round(i/size,4)}
-		self.progress = round(i/size,4)
+		self.progress[0] = round(i/size,4)
 		response = self.queue.send_message(MessageBody=json.dumps(d), MessageGroupId='bots')
 
 	def dump(self):
